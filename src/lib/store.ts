@@ -113,7 +113,8 @@ export async function listResources(): Promise<Resource[]> {
   );
 
   if (!response.ok) {
-    throw new Error(`Supabase list failed: ${response.status}`);
+    console.error(`Supabase list failed: ${response.status}`);
+    return readLocalResources();
   }
 
   const rows = (await response.json()) as DbResource[];

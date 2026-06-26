@@ -142,6 +142,7 @@ button:disabled {
 .nav-link,
 .button,
 .button-secondary,
+.button-cta,
 .button-quiet {
   display: inline-flex;
   min-height: 48px;
@@ -151,6 +152,28 @@ button:disabled {
   font-weight: 750;
   line-height: 1;
   white-space: nowrap;
+}
+
+.button-cta {
+  gap: 6px;
+  padding: 0 16px;
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 10px 24px rgba(200, 75, 49, 0.26);
+}
+
+.button-cta:hover,
+.button-cta:focus-visible {
+  background: #b23f27;
+  border-color: #b23f27;
+}
+
+.button-cta span {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .nav-link {
@@ -196,7 +219,7 @@ button:disabled {
   border-radius: 999px;
   background: rgba(255, 253, 248, 0.74);
   color: var(--color-primary-dark);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 800;
   padding: 7px 11px;
 }
@@ -213,7 +236,7 @@ button:disabled {
 .hero-copy {
   max-width: 760px;
   color: var(--color-muted);
-  font-size: clamp(1.02rem, 2.5vw, 1.24rem);
+  font-size: clamp(1.08rem, 2.5vw, 1.24rem);
   line-height: 1.55;
 }
 
@@ -282,6 +305,7 @@ button:disabled {
 .section-header p {
   max-width: 560px;
   color: var(--color-muted);
+  font-size: 1.05rem;
   line-height: 1.5;
 }
 
@@ -389,7 +413,8 @@ button:disabled {
 
 .card p {
   color: var(--color-muted);
-  line-height: 1.48;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 .tag-row {
@@ -459,6 +484,7 @@ button:disabled {
 .panel p,
 .panel li {
   color: var(--color-muted);
+  font-size: 1.05rem;
   line-height: 1.55;
 }
 
@@ -469,6 +495,7 @@ button:disabled {
 
 .form-help {
   color: var(--color-muted);
+  font-size: 1.05rem;
   line-height: 1.5;
 }
 
@@ -677,4 +704,40 @@ button:disabled {
   background: var(--color-surface);
   border: 1px dashed var(--color-line);
   border-radius: var(--radius-md);
+}
+
+/* Sección de registro rápido tras las cards */
+.register-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  padding: 26px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface-strong),
+    var(--color-surface)
+  );
+  box-shadow: var(--shadow-card);
+}
+
+.register-cta-copy h2 {
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.register-cta-copy p {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 720px) {
+  .register-cta {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
 }

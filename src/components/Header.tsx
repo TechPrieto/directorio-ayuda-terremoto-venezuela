@@ -15,8 +15,8 @@ export function Header() {
           <Link className="nav-link" href="/verificacion">
             Verificación
           </Link>
-          <Link className="button-secondary" href="/registrar">
-            Registrar enlace
+          <Link className="button-cta" href="/registrar">
+            <span aria-hidden="true">＋</span> Registrar enlace
           </Link>
         </nav>
       </div>

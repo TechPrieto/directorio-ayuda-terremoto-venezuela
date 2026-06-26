@@ -1,6 +1,7 @@
 import { Directory } from "@/components/Directory";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { RegisterForm } from "@/components/RegisterForm";
 import { categoryLabels } from "@/lib/seed-resources";
 import { listResources } from "@/lib/store";
 
@@ -97,6 +98,20 @@ export default async function Home() {
           categoryLabels={categoryLabels}
           shareUrl={SITE_URL}
         />
+
+        <section className="container section" id="registrar-rapido">
+          <div className="register-cta">
+            <div className="register-cta-copy">
+              <h2>¿Conoces una página que no está aquí?</h2>
+              <p>
+                Si hay una plataforma de ayuda que no aparece en el directorio,
+                agrégala pegando su enlace. El sistema valida que esté online,
+                lee la página y crea la tarjeta automáticamente.
+              </p>
+            </div>
+            <RegisterForm />
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

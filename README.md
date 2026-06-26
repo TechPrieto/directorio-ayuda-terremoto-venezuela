@@ -18,7 +18,7 @@ Variables opcionales para persistencia real:
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `CRON_SECRET`
 
-Si Supabase no está configurado, la app usa datos seed y fallback local para desarrollo. En Vercel, configurar Supabase para que los registros nuevos sean persistentes globalmente.
+Si Supabase no está configurado, la app usa datos seed y fallback local. En Vercel ese fallback vive en `/tmp`, por lo que sirve solo como prueba temporal; configurar Supabase para que los registros nuevos sean persistentes globalmente.
 
 ## Rutas
 

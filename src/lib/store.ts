@@ -24,7 +24,9 @@ type DbResource = {
   clicks_7d?: number;
 };
 
-const dataDir = path.join(process.cwd(), ".data");
+const dataDir = process.env.VERCEL
+  ? path.join("/tmp", "directorio-ayuda-terremoto-venezuela")
+  : path.join(process.cwd(), ".data");
 const dataFile = path.join(dataDir, "resources.json");
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

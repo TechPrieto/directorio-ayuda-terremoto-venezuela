@@ -1,17 +1,43 @@
 import type { ResourceStatus, ValidationResult } from "./types";
 
+// Señales de página genuinamente muerta o estacionada. NO incluir "login"/"sign in":
+// muchos recursos legítimos (Instagram, apps con cuenta) son login walls y entran bien
+// para un humano. Penalizarlos los marcaba como "Con problemas" siendo válidos.
 const parkedSignals = [
   "domain for sale",
   "buy this domain",
+  "this domain is parked",
   "parked free",
-  "coming soon",
   "deployment not found",
-  "404: not found",
   "application error",
-  "internal server error",
-  "sign in",
-  "login",
 ];
+
+// Códigos que significan "el servidor está vivo pero nos bloquea o pide cuenta".
+// No son caídas: un usuario con navegador real (o con login) entra normal. Bot-protection
+// de Cloudflare suele responder 403; login walls, 401. Tratarlos como operativos.
+const reachableButBlocked = new Set([401, 403, 405, 406, 429]);
+
+// Plataformas que son login walls por diseño: siempre válidas como destino, aunque su
+// HTML público sea solo un formulario de acceso. Evita falsos "Con problemas".
+const alwaysReachableHosts = [
+  "instagram.com",
+  "facebook.com",
+  "x.com",
+  "twitter.com",
+  "tiktok.com",
+  "t.me",
+  "wa.me",
+  "chat.whatsapp.com",
+];
+
+function hostMatches(normalizedUrl: string, hosts: string[]) {
+  try {
+    const host = new URL(normalizedUrl).hostname.replace(/^www\./, "");
+    return hosts.some((h) => host === h || host.endsWith(`.${h}`));
+  } catch {
+    return false;
+  }
+}
 
 function extractMeta(content: string, normalizedUrl: string) {
   const title =
@@ -83,25 +109,53 @@ export async function validateResourceUrl(
     });
 
     const responseMs = Date.now() - started;
-    const status: ResourceStatus =
-      response.status >= 200 && response.status < 400 ? "operational" : "down";
 
-    if (status !== "operational") {
+    // El servidor respondió pero nos bloquea (bot-protection) o pide login: está vivo.
+    if (reachableButBlocked.has(response.status)) {
+      return {
+        ok: true,
+        normalizedUrl,
+        status: "operational",
+        responseMs,
+        reason: null,
+        pageTitle: new URL(normalizedUrl).hostname.replace(/^www\./, ""),
+        pageDescription: null,
+        pageText: null,
+      };
+    }
+
+    // Plataformas que son login walls por diseño: válidas como destino sin leer el cuerpo.
+    if (hostMatches(normalizedUrl, alwaysReachableHosts)) {
+      return {
+        ok: true,
+        normalizedUrl,
+        status: "operational",
+        responseMs,
+        reason: null,
+        pageTitle: new URL(normalizedUrl).hostname.replace(/^www\./, ""),
+        pageDescription: null,
+        pageText: null,
+      };
+    }
+
+    // Solo es caída si el servidor falla de verdad (404, 5xx, etc.).
+    if (response.status < 200 || response.status >= 400) {
       return {
         ok: false,
         normalizedUrl,
-        status,
+        status: "down",
         responseMs,
         reason: `El sitio respondió HTTP ${response.status}.`,
       };
     }
 
-    const contentType = response.headers.get("content-type") ?? "";
     const text = await response.text();
     const compact = text.replace(/\s+/g, " ").trim();
     const lower = compact.toLowerCase();
 
-    if (contentType.includes("text/html") && compact.length < 180) {
+    // HTML casi vacío suele ser un SPA que hidrata con JS (app reachable), no una caída.
+    // Solo lo tratamos como degradado si además trae señales de página muerta (abajo).
+    if (compact.length < 30) {
       return {
         ok: false,
         normalizedUrl,

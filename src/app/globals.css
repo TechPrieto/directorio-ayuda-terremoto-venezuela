@@ -148,10 +148,17 @@ button:disabled {
   min-height: 48px;
   align-items: center;
   justify-content: center;
+  gap: 7px;
   border-radius: var(--radius-sm);
   font-weight: 750;
   line-height: 1;
   white-space: nowrap;
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
 }
 
 .button-cta {
@@ -268,6 +275,38 @@ button:disabled {
   color: var(--color-muted);
   font-size: 1rem;
   font-weight: 750;
+}
+
+/* La celda de instalación PWA puede ser un botón: se ve igual pero es accionable. */
+.hero-install {
+  display: block;
+  width: 100%;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+button.hero-install.is-action {
+  cursor: pointer;
+  border-color: var(--color-primary);
+  box-shadow: 0 16px 34px rgba(12, 107, 88, 0.16);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+button.hero-install.is-action:hover,
+button.hero-install.is-action:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-dark);
+}
+
+.hero-install.is-action span {
+  color: var(--color-primary-dark);
+  font-size: clamp(1.15rem, 4vw, 1.7rem);
+}
+
+.hero-install.is-installed span {
+  color: var(--color-ok);
 }
 
 .notice {
@@ -391,12 +430,27 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
-.status-dot {
-  width: 12px;
-  height: 12px;
+.status-pill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 5px 10px 5px 8px;
+  white-space: nowrap;
+}
+
+.status-pill .dot {
+  width: 9px;
+  height: 9px;
   flex: 0 0 auto;
   border-radius: 50%;
-  margin-top: 4px;
 }
 
 .status-operational {
@@ -448,10 +502,19 @@ button:disabled {
 }
 
 .card-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 14px;
+}
+
+.card-actions .button {
+  flex: 1 1 100%;
+}
+
+.card-actions .button-quiet {
+  flex: 1 1 0;
+  border-color: var(--color-line);
 }
 
 .card-actions a,

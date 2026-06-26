@@ -1,6 +1,7 @@
 import { Directory } from "@/components/Directory";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { InstallApp } from "@/components/InstallApp";
 import { RegisterForm } from "@/components/RegisterForm";
 import { categoryLabels } from "@/lib/seed-resources";
 import { listResources } from "@/lib/store";
@@ -55,10 +56,7 @@ export default async function Home() {
               <span>{operational}</span>
               <p>operativas</p>
             </div>
-            <div className="hero-status">
-              <span>PWA</span>
-              <p>instalable y cacheada</p>
-            </div>
+            <InstallApp />
           </div>
           <div className="notice">
             <strong>Importante:</strong>{" "}

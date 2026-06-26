@@ -61,6 +61,8 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         <a
           className="button"
           href={`/go/${resource.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label={`Abrir ${resource.name}`}
         >
           Abrir

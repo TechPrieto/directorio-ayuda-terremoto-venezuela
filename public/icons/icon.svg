@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Directorio de ayuda Venezuela</title>
+  <rect width="512" height="512" rx="112" fill="#0c6b58"/>
+  <circle cx="256" cy="256" r="170" fill="#fffdf8"/>
+  <path d="M162 192h188v38H162v-38Zm0 70h188v38H162v-38Zm0 70h132v38H162v-38Z" fill="#0c6b58"/>
+  <path d="M336 318l54 54 54-54" fill="none" stroke="#c84b31" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

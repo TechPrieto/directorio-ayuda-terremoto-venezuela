@@ -2,6 +2,8 @@
 
 MVP mobile-first para centralizar enlaces comunitarios de ayuda, validar si los sitios están operativos, medir clicks anónimos y desplegar en Vercel.
 
+La app es PWA instalable: incluye `manifest.webmanifest`, service worker, pantalla offline y cache básico del shell para que las personas puedan tener el directorio a la mano en el teléfono.
+
 ## Desarrollo
 
 ```bash
@@ -28,6 +30,8 @@ Si Supabase no está configurado, la app usa datos seed y fallback local. En Ver
 - `/go/[resourceId]` redirect medido
 - `/api/resources` API de recursos
 - `/api/health-check` endpoint de monitoreo. En Vercel Hobby queda diario; con Vercel Pro o scheduler externo puede correr cada 12 horas.
+
+Los recursos externos se abren en pestaña nueva mediante `/go/[resourceId]` para no cerrar el directorio.
 
 ## Base de datos
 

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0c6b58" />
+    <title>Directorio de ayuda sin conexión</title>
+    <style>
+      :root {
+        --color-bg: #f7f4ee;
+        --color-surface: #fffdf8;
+        --color-ink: #17211d;
+        --color-muted: #5d6863;
+        --color-line: #d8cdbc;
+        --color-primary: #0c6b58;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        background: var(--color-bg);
+        color: var(--color-ink);
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 24px;
+      }
+
+      main {
+        max-width: 520px;
+        border: 1px solid var(--color-line);
+        border-radius: 12px;
+        background: var(--color-surface);
+        padding: 22px;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 8vw, 3rem);
+        line-height: 1;
+      }
+
+      p {
+        color: var(--color-muted);
+        line-height: 1.55;
+      }
+
+      a {
+        display: inline-flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        border-radius: 8px;
+        background: var(--color-primary);
+        color: white;
+        font-weight: 800;
+        padding: 0 16px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Sin conexión</h1>
+      <p>
+        El directorio está instalado y puede mostrar páginas visitadas
+        anteriormente. Para abrir recursos externos o registrar enlaces nuevos,
+        vuelve a intentar cuando tengas internet.
+      </p>
+      <a href="/">Volver al directorio</a>
+    </main>
+  </body>
+</html>

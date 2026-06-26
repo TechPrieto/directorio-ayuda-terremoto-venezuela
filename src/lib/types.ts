@@ -30,6 +30,7 @@ export type ResourceInput = {
   contact: string;
   trustClaim: string;
   evidence: string;
+  tags?: string[];
 };
 
 export type ValidationResult = {
@@ -38,4 +39,17 @@ export type ValidationResult = {
   status: ResourceStatus;
   responseMs: number | null;
   reason: string | null;
+  pageTitle?: string | null;
+  pageDescription?: string | null;
+  pageText?: string | null;
+};
+
+export type ClassifiedResource = {
+  name: string;
+  category: string;
+  summary: string;
+  zone: string;
+  tags: string[];
+  confidence: number;
+  source: "anthropic" | "openrouter" | "heuristic";
 };

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { addResource, listResources } from "@/lib/store";
 import type { ResourceInput } from "@/lib/types";
+import { classifyResource } from "@/lib/classify-resource";
 import { validateResourceUrl } from "@/lib/validate-resource";
 
 function clean(value: unknown) {
@@ -18,25 +19,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Solicitud inválida." }, { status: 400 });
   }
 
-  const input: ResourceInput = {
-    name: clean(body.name),
-    url: clean(body.url),
-    category: clean(body.category),
-    summary: clean(body.summary),
-    zone: clean(body.zone) || "Venezuela",
-    contact: clean(body.contact),
-    trustClaim: clean(body.trustClaim) || "community",
-    evidence: clean(body.evidence),
-  };
+  const url = clean(body.url);
 
-  if (!input.name || !input.url || !input.category || input.summary.length < 12) {
+  if (!url) {
     return NextResponse.json(
-      { error: "Faltan campos obligatorios o la descripción es muy corta." },
+      { error: "Pega un enlace para registrarlo." },
       { status: 400 },
     );
   }
 
-  const validation = await validateResourceUrl(input.url);
+  const validation = await validateResourceUrl(url);
   if (!validation.ok) {
     return NextResponse.json(
       {
@@ -47,6 +39,19 @@ export async function POST(request: Request) {
       { status: 422 },
     );
   }
+
+  const classification = await classifyResource(validation);
+  const input: ResourceInput = {
+    name: classification.name,
+    url,
+    category: classification.category,
+    summary: classification.summary,
+    zone: classification.zone,
+    contact: "",
+    trustClaim: "community",
+    evidence: `Clasificado por ${classification.source} con confianza ${classification.confidence}`,
+    tags: classification.tags,
+  };
 
   const result = await addResource(
     input,
@@ -61,6 +66,6 @@ export async function POST(request: Request) {
     resource: result.resource,
     message: result.duplicate
       ? "Este enlace ya estaba en el directorio."
-      : "El sitio está operativo. La tarjeta fue creada como No oficial + Operativo.",
+      : `El sitio está operativo. La tarjeta fue creada como ${classification.category}.`,
   });
 }

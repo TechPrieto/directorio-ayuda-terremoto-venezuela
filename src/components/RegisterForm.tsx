@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { categoryLabels } from "@/lib/seed-resources";
 
 type Result = {
   ok: boolean;
@@ -42,75 +41,28 @@ export function RegisterForm() {
   return (
     <form className="form" onSubmit={onSubmit}>
       <div className="field">
-        <label htmlFor="name">Nombre de la página</label>
-        <input id="name" name="name" required minLength={2} />
-      </div>
-      <div className="field">
-        <label htmlFor="url">URL</label>
+        <label htmlFor="url">Enlace de la página</label>
         <input
           id="url"
           name="url"
           type="url"
           required
-          placeholder="https://..."
+          inputMode="url"
+          autoComplete="url"
+          placeholder="https://ejemplo.com"
         />
       </div>
-      <div className="field">
-        <label htmlFor="category">Categoría</label>
-        <select id="category" name="category" required>
-          {categoryLabels.map((category) => (
-            <option value={category} key={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="field">
-        <label htmlFor="summary">Qué hace</label>
-        <textarea
-          id="summary"
-          name="summary"
-          required
-          minLength={12}
-          maxLength={220}
-          placeholder="Explica en una frase cómo ayuda esta página."
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="zone">Zona o cobertura</label>
-        <input id="zone" name="zone" placeholder="Venezuela, Caracas, etc." />
-      </div>
-      <div className="field">
-        <label htmlFor="contact">Contacto responsable</label>
-        <input
-          id="contact"
-          name="contact"
-          placeholder="Email, Instagram, WhatsApp o nombre"
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="trustClaim">Tipo de recurso</label>
-        <select id="trustClaim" name="trustClaim" defaultValue="community">
-          <option value="community">Comunitario / voluntario</option>
-          <option value="official">Dice ser oficial</option>
-          <option value="unknown">No estoy seguro</option>
-        </select>
-      </div>
-      <div className="field">
-        <label htmlFor="evidence">Evidencia opcional</label>
-        <input
-          id="evidence"
-          name="evidence"
-          placeholder="Instagram, fuente pública o referencia"
-        />
-      </div>
+      <p className="form-help">
+        Pegas el enlace. El sistema valida que esté online, lee la página y
+        detecta nombre, categoría, resumen y etiquetas automáticamente.
+      </p>
       {result ? (
         <div className={`form-result ${result.ok ? "success" : "error"}`}>
           {result.message}
         </div>
       ) : null}
       <button className="button" disabled={submitting} type="submit">
-        {submitting ? "Validando sitio..." : "Registrar y validar"}
+        {submitting ? "Validando y clasificando..." : "Registrar enlace"}
       </button>
     </form>
   );

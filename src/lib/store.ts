@@ -147,10 +147,12 @@ export async function addResource(
     category: input.category,
     summary: input.summary.trim(),
     zone: input.zone.trim() || "Venezuela",
-    tags: [
-      input.trustClaim === "official" ? "Oficial declarado" : "No oficial",
-      "Nuevo recurso",
-    ],
+    tags: input.tags?.length
+      ? input.tags
+      : [
+          input.trustClaim === "official" ? "Oficial declarado" : "No oficial",
+          "Nuevo recurso",
+        ],
     status,
     trust: "unofficial",
     clicks24h: 0,

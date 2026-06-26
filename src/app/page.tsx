@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ResourceCard } from "@/components/ResourceCard";
@@ -42,16 +41,19 @@ export default async function Home() {
             refugios, centros de acopio, apoyo médico, transporte y otros
             recursos publicados por la comunidad.
           </p>
-          <div className="hero-actions">
-            <a className="button" href="#necesito-ayuda">
-              Necesito ayuda
-            </a>
-            <a className="button-secondary" href="#directorio">
-              Ver directorio
-            </a>
-            <Link className="button-quiet" href="/registrar">
-              Registrar enlace
-            </Link>
+          <div className="hero-status-grid" aria-label="Estado del directorio">
+            <div className="hero-status">
+              <span>{resources.length}</span>
+              <p>páginas cargadas</p>
+            </div>
+            <div className="hero-status">
+              <span>{operational}</span>
+              <p>operativas</p>
+            </div>
+            <div className="hero-status">
+              <span>PWA</span>
+              <p>instalable y cacheada</p>
+            </div>
           </div>
           <div className="notice">
             <strong>Importante:</strong>{" "}

@@ -13,8 +13,9 @@ export default function RegisterPage() {
             <p className="eyebrow">Registro automático</p>
             <h1>Registrar una página de ayuda</h1>
             <p>
-              El sistema revisa si el sitio está online, responde correctamente
-              y no parece una página vacía o caída. Si pasa, se publica como{" "}
+              Pega solo el enlace. El sistema revisa si el sitio está online,
+              lee la página y usa IA para detectar nombre, categoría, resumen y
+              etiquetas. Si pasa, se publica como{" "}
               <strong>No oficial + Operativo</strong>.
             </p>
             <p>

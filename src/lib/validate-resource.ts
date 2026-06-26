@@ -13,6 +13,35 @@ const parkedSignals = [
   "login",
 ];
 
+function extractMeta(content: string, normalizedUrl: string) {
+  const title =
+    content.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim() ??
+    new URL(normalizedUrl).hostname.replace(/^www\./, "");
+  const description =
+    content
+      .match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["'][^>]*>/i)?.[1]
+      ?.trim() ??
+    content
+      .match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["'][^>]*>/i)?.[1]
+      ?.trim() ??
+    null;
+  const text = content
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 5000);
+
+  return {
+    pageTitle: title.replace(/\s+/g, " ").slice(0, 120),
+    pageDescription: description?.replace(/\s+/g, " ").slice(0, 260) ?? null,
+    pageText: text,
+  };
+}
+
 export function normalizeUrl(value: string) {
   const trimmed = value.trim();
   const withProtocol = /^https?:\/\//i.test(trimmed)
@@ -99,6 +128,7 @@ export async function validateResourceUrl(
       status: "operational",
       responseMs,
       reason: null,
+      ...extractMeta(text, normalizedUrl),
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : "Error desconocido.";

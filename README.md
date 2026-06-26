@@ -27,7 +27,7 @@ Si Supabase no está configurado, la app usa datos seed y fallback local para de
 - `/verificacion` criterios de estado y confianza
 - `/go/[resourceId]` redirect medido
 - `/api/resources` API de recursos
-- `/api/health-check` endpoint usado por Vercel Cron cada 12 horas
+- `/api/health-check` endpoint de monitoreo. En Vercel Hobby queda diario; con Vercel Pro o scheduler externo puede correr cada 12 horas.
 
 ## Base de datos
 

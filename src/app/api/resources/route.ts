@@ -1,11 +1,25 @@
 import { NextResponse } from "next/server";
-import { addResource, listResources } from "@/lib/store";
-import type { ResourceInput } from "@/lib/types";
+import {
+  addResource,
+  deleteResource,
+  listResources,
+  setResourceTrust,
+} from "@/lib/store";
+import type { ResourceInput, TrustStatus } from "@/lib/types";
 import { classifyResource } from "@/lib/classify-resource";
 import { validateResourceUrl } from "@/lib/validate-resource";
 
 function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
+}
+
+function isModerator(request: Request) {
+  const token = process.env.MODERATION_TOKEN;
+  if (!token) {
+    return false;
+  }
+  const auth = request.headers.get("authorization");
+  return auth === `Bearer ${token}`;
 }
 
 export async function GET() {
@@ -68,4 +82,57 @@ export async function POST(request: Request) {
       ? "Este enlace ya estaba en el directorio."
       : `El sitio está operativo. La tarjeta fue creada como ${classification.category}.`,
   });
+}
+
+export async function DELETE(request: Request) {
+  if (!isModerator(request)) {
+    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  }
+
+  const url = new URL(request.url);
+  const id = clean(url.searchParams.get("id"));
+  if (!id) {
+    return NextResponse.json(
+      { error: "Falta el parámetro id." },
+      { status: 400 },
+    );
+  }
+
+  const removed = await deleteResource(id);
+  if (!removed) {
+    return NextResponse.json(
+      { error: "No se encontró el recurso." },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({ ok: true, deleted: id });
+}
+
+export async function PATCH(request: Request) {
+  if (!isModerator(request)) {
+    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => null);
+  const id = clean(body?.id);
+  const trust = clean(body?.trust) as TrustStatus;
+  const allowed: TrustStatus[] = ["unofficial", "community", "verified"];
+
+  if (!id || !allowed.includes(trust)) {
+    return NextResponse.json(
+      { error: "Envía id y trust (unofficial | community | verified)." },
+      { status: 400 },
+    );
+  }
+
+  const updated = await setResourceTrust(id, trust);
+  if (!updated) {
+    return NextResponse.json(
+      { error: "No se encontró el recurso." },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({ ok: true, resource: updated });
 }

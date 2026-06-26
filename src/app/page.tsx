@@ -1,8 +1,12 @@
+import { Directory } from "@/components/Directory";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { ResourceCard } from "@/components/ResourceCard";
 import { categoryLabels } from "@/lib/seed-resources";
 import { listResources } from "@/lib/store";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://directorio-paginas-ayuda-venezuela.vercel.app";
 
 export const dynamic = "force-dynamic";
 
@@ -88,36 +92,11 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="container section" id="directorio">
-          <div className="section-header">
-            <div>
-              <h2>Directorio</h2>
-            </div>
-            <p>
-              Los botones &quot;Abrir&quot; pasan por una ruta medida para saber qué
-              recursos está usando la gente, sin guardar datos personales.
-            </p>
-          </div>
-          {groups.map((group) => (
-            <div
-              className="resource-group"
-              id={anchorFor(group.category)}
-              key={group.category}
-            >
-              <div className="resource-group-title">
-                <h3>{group.category}</h3>
-                <span className="resource-count">
-                  {group.resources.length} enlaces
-                </span>
-              </div>
-              <div className="resource-grid">
-                {group.resources.map((resource) => (
-                  <ResourceCard resource={resource} key={resource.id} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
+        <Directory
+          resources={resources}
+          categoryLabels={categoryLabels}
+          shareUrl={SITE_URL}
+        />
       </main>
       <Footer />
     </div>

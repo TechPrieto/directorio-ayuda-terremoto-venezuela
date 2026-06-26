@@ -69,6 +69,17 @@ export function ResourceCard({ resource }: { resource: Resource }) {
         </a>
         <a
           className="button-quiet"
+          href={`https://wa.me/?text=${encodeURIComponent(
+            `${resource.name} (${resource.category}) — ${resource.summary} ${resource.url}`,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Compartir ${resource.name} por WhatsApp`}
+        >
+          Compartir
+        </a>
+        <a
+          className="button-quiet"
           href={`mailto:?subject=Revisar recurso ${encodeURIComponent(
             resource.name,
           )}&body=${encodeURIComponent(resource.url)}`}

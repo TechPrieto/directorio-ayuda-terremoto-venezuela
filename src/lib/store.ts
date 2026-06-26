@@ -244,6 +244,71 @@ export async function updateResourceHealth(
   return updated;
 }
 
+export async function deleteResource(id: string): Promise<boolean> {
+  if (hasSupabase()) {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/resources?id=eq.${encodeURIComponent(id)}`,
+      { method: "DELETE", headers: dbHeaders() },
+    );
+
+    if (!response.ok) {
+      throw new Error(`Supabase delete failed: ${response.status}`);
+    }
+
+    const removed = (await response.json()) as DbResource[];
+    return removed.length > 0;
+  }
+
+  const resources = await readLocalResources();
+  const next = resources.filter((resource) => resource.id !== id);
+  if (next.length === resources.length) {
+    return false;
+  }
+  await writeLocalResources(next);
+  return true;
+}
+
+export async function setResourceTrust(
+  id: string,
+  trust: Resource["trust"],
+): Promise<Resource | null> {
+  const resources = await listResources();
+  const target = resources.find((resource) => resource.id === id);
+  if (!target) {
+    return null;
+  }
+
+  const updated: Resource = {
+    ...target,
+    trust,
+    lastManualReviewAt: new Date().toISOString(),
+  };
+
+  if (hasSupabase()) {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/resources?id=eq.${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        headers: dbHeaders(),
+        body: JSON.stringify({
+          trust,
+          last_manual_review_at: updated.lastManualReviewAt,
+        }),
+      },
+    );
+    if (!response.ok) {
+      throw new Error(`Supabase trust update failed: ${response.status}`);
+    }
+  } else {
+    const local = await readLocalResources();
+    await writeLocalResources(
+      local.map((item) => (item.id === id ? updated : item)),
+    );
+  }
+
+  return updated;
+}
+
 export async function recordClick(resource: Resource, request: Request) {
   if (!hasSupabase()) {
     return;

@@ -16,7 +16,7 @@ export function Header() {
             Verificación
           </Link>
           <Link className="button-cta" href="/registrar">
-            <span aria-hidden="true">＋</span> Registrar enlace
+            <span aria-hidden="true">+</span> Registrar enlace
           </Link>
         </nav>
       </div>

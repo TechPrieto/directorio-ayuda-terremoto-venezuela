@@ -29,7 +29,7 @@ const baseResources = [
   ["grupo-avila", "Grupo Ávila", "https://www.instagram.com/grupoavila.ve", "Inspección de habitabilidad", "Canal social de apoyo técnico para habitabilidad.", "Instagram,Ingenieros"],
   ["ayuda-para-venezuela", "Ayuda para Venezuela", "https://ayudaparavenezuela.com", "Centros de acopio", "Centros de acopio e insumos requeridos por zona.", "Acopio,Insumos,Zonas"],
   ["veneconnect-apoyo-terremoto", "Veneconnect Apoyo Terremoto", "https://www.veneconnect.com/apoyo-terremoto", "Centros de acopio", "Recursos y puntos de apoyo para la emergencia.", "Acopio,Ayuda"],
-  ["tugruero", "Tu Gruero", "https://tugruero.com", "Centros de acopio", "Apoyo logístico y conexiones de transporte disponibles.", "Transporte,Logística"],
+  ["tugruero", "Tu Gruero", "https://tugruero.com", "Logística y transporte", "Apoyo logístico y conexiones de transporte disponibles.", "Transporte,Logística,Grúas"],
   ["zona-segura", "Zona Segura", "https://zonasegura.up.railway.app", "Refugios y alojamiento", "Ubicación de zonas seguras, refugios y puntos de apoyo.", "Mapa,Refugios"],
   ["refugios-venezuela", "Refugios Venezuela", "https://refugiosvenezuela.com", "Refugios y alojamiento", "Refugios, alojamiento y centros de alimentación.", "Refugios,Alimentación"],
   ["pacientes-terremoto-vzla", "Pacientes Terremoto VZLA", "https://pacientesterremotovzla.lovable.app", "Pacientes en hospitales", "Consulta y registro de pacientes en hospitales.", "Hospitales,Pacientes"],

@@ -46,8 +46,25 @@ function dbHeaders() {
   };
 }
 
+function normalizeKnownResource(resource: Resource): Resource {
+  const hostname = new URL(resource.url).hostname.replace(/^www\./, "");
+
+  if (hostname === "tugruero.com") {
+    const tags = new Set([...resource.tags, "Transporte", "Logística", "Grúas"]);
+    return {
+      ...resource,
+      category: "Logística y transporte",
+      summary:
+        resource.summary || "Apoyo logístico y conexiones de transporte disponibles.",
+      tags: Array.from(tags).slice(0, 4),
+    };
+  }
+
+  return resource;
+}
+
 function fromDb(row: DbResource): Resource {
-  return {
+  return normalizeKnownResource({
     id: row.id,
     name: row.name,
     url: row.url,
@@ -65,7 +82,7 @@ function fromDb(row: DbResource): Resource {
     responseMs: row.response_ms,
     failureReason: row.failure_reason,
     consecutiveFailures: row.consecutive_failures,
-  };
+  });
 }
 
 function toDb(resource: Resource) {
@@ -104,7 +121,7 @@ async function writeLocalResources(resources: Resource[]) {
 
 export async function listResources(): Promise<Resource[]> {
   if (!hasSupabase()) {
-    return readLocalResources();
+    return (await readLocalResources()).map(normalizeKnownResource);
   }
 
   const response = await fetch(

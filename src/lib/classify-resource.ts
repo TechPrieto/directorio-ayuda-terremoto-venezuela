@@ -51,16 +51,16 @@ function inferCategory(text: string) {
   const value = text.toLowerCase();
   const checks: Array<[string, string[]]> = [
     ["Personas desaparecidas", ["desaparecid", "busca", "persona"]],
+    ["Logística y transporte", ["grua", "grúa", "gruero", "transporte", "logística", "logistica", "traslado", "movilidad"]],
     ["Daños estructurales", ["daño", "estructura", "vivienda", "edificio"]],
     ["Rescate y apoyo presencial", ["rescate", "voluntario", "brigada"]],
     ["Inspección de habitabilidad", ["habitable", "ingenier", "inspección"]],
-    ["Centros de acopio", ["acopio", "donación", "donaciones", "ayuda"]],
+    ["Centros de acopio", ["acopio", "donación", "donacion", "donaciones", "centro de ayuda", "punto de ayuda"]],
     ["Insumos por zona", ["insumos", "requeridos", "necesitan"]],
     ["Alimentación", ["aliment", "comida", "agua"]],
     ["Refugios y alojamiento", ["refugio", "alojamiento", "zona segura"]],
     ["Pacientes en hospitales", ["paciente", "hospital", "clínica"]],
     ["Mascotas", ["mascota", "perro", "gato", "huella"]],
-    ["Logística y transporte", ["transporte", "logística", "traslado"]],
     ["Apoyo médico y psicológico", ["médico", "medico", "psicol", "emergencia"]],
   ];
 
@@ -82,6 +82,12 @@ Devuelve SOLO JSON válido con esta forma:
 
 Categorías permitidas:
 ${categoryLabels.map((category) => `- ${category}`).join("\n")}
+
+Reglas de clasificación:
+- Usa "Logística y transporte" para grúas, traslados, movilidad, transporte, rutas, envíos o coordinación logística.
+- Usa "Centros de acopio" solo cuando el objetivo principal sea recibir, ubicar o coordinar donaciones, puntos de acopio o insumos.
+- La palabra "ayuda" por sí sola no implica "Centros de acopio"; prioriza la función real de la página.
+- Si una página puede servir a varias categorías, escoge la categoría principal más específica.
 
 URL: ${validation.normalizedUrl}
 Título: ${validation.pageTitle ?? "No disponible"}

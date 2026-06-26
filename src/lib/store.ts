@@ -28,8 +28,10 @@ const dataDir = process.env.VERCEL
   ? path.join("/tmp", "directorio-ayuda-terremoto-venezuela")
   : path.join(process.cwd(), ".data");
 const dataFile = path.join(dataDir, "resources.json");
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl =
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
 
 function hasSupabase() {
   return Boolean(supabaseUrl && supabaseServiceKey);

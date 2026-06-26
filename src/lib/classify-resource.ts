@@ -132,7 +132,7 @@ async function classifyWithOpenRouter(validation: ValidationResult) {
       "x-title": "Directorio Ayuda Terremoto Venezuela",
     },
     body: JSON.stringify({
-      model: process.env.OPENROUTER_MODEL ?? "openrouter/free",
+      model: process.env.OPENROUTER_MODEL ?? "google/gemma-4-26b-a4b-it:free",
       temperature: 0,
       messages: [{ role: "user", content: buildPrompt(validation) }],
     }),

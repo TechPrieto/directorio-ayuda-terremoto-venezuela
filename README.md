@@ -22,7 +22,7 @@ Variables opcionales para persistencia real:
 - `ANTHROPIC_API_KEY`
 - `ANTHROPIC_MODEL` opcional; default `claude-haiku-4-5-20251001`
 - `OPENROUTER_API_KEY`
-- `OPENROUTER_MODEL` opcional; default `openrouter/free`
+- `OPENROUTER_MODEL` opcional; default `google/gemma-4-26b-a4b-it:free`
 
 Si Supabase no está configurado, la app usa datos seed y fallback local. En Vercel ese fallback vive en `/tmp`, por lo que sirve solo como prueba temporal; configurar Supabase para que los registros nuevos sean persistentes globalmente.
 
